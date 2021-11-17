@@ -1,6 +1,5 @@
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-const { response } = require("../index");
 let index = require("../index");
 
 chai.should();
@@ -12,6 +11,7 @@ describe("Tasks api", () => {
    * Testing Post API
    */
   describe("POST /api/tasks", () => {
+    
     it("It Will Create New User", (done) => {
       const data = {
         name: "mihir",
@@ -61,9 +61,8 @@ describe("Tasks api", () => {
           response.should.have.status(401);
           response.text.should.be.eq('"Please Enter Correct Password"');
           response.should.be.a("object");
-
-          done();
-        });
+        });  
+        done();
     });
   });
 
@@ -137,6 +136,7 @@ describe("Tasks api", () => {
         });
         done();
     });
+  });
   
   describe("DELETE /api/tasks", () => {
 
@@ -156,10 +156,8 @@ describe("Tasks api", () => {
         })
         done();
     });
-
-   });
- 
   });
+  
 });
 
 

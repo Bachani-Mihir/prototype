@@ -35,7 +35,7 @@
     app.use(cors());
      
     /**For API's */
-    app.use('/employee',user);
+    app.use('/student',user);
     app.use('/',profile);
     app.listen(port,() => console.log(`app listening on ${port}`));
     module.exports = app; 
