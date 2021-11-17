@@ -8,17 +8,26 @@ exports.usersignup = async(req, res) => {
     try{
         const password = req.body.password;
         const encpswrd = await bcrypt.hash(password, 10);
+        const emailid = req.body.emailid;
         const student = new Student({
               name: req.body.name,
               emailid: req.body.emailid,
               password: encpswrd,
         });
 
-        var studentdata = await student.save(); // Query To Save The Data
-        res.status(200).json({
-          message:"user created successfully",
-          data:studentdata
-        });
+        var findemail = await Student.findOne({ emailid:emailid });
+        
+        if(findemail){
+          res.status(402).json({message:"Multiple Users Cannot Be Created Using Same EmailId"});
+        }
+        else{
+          var studentdata = await student.save(); // Query To Save The Data
+          res.status(200).json({
+            message:"user created successfully",
+            data:studentdata
+          });
+        }
+
     }catch(err){
       console.log(err);
     } 
