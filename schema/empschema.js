@@ -16,5 +16,5 @@ const mongoose = require('../db/db');
         
     });
     
-const Student = mongoose.model("pedalsup",schema); 
+const Student = mongoose.model("pedalsup",schema);          // Here Pedalsup Stands For Schema Name Or Collection Name In Database
 module.exports = Student;

@@ -1,39 +1,46 @@
-const {verify} = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
 require("dotenv").config();
 
 exports.checktoken = async(req, res, next) => {
   try{
-      let token = req.get("authorization"); // Token readed from headers
+      let token = req.get("authorization");                                                               // Token requested from headers
 
       if(token){
-          token = token.slice(7);
-          var decrypted = CryptoJS.AES.decrypt(token,process.env.key).toString(CryptoJS.enc.Utf8);
-          const verify = await verify(decrypted, process.env.SECRET); // Token verified Using Secret Key
-          const emailid = req.body.emailid;
-          
-            if(verify.emailid == emailid)
+          token = token.slice(7);                                                                         // Slice Is Used For Skipping Amount Of data(As Mentioned) 
+          var decryptedtoken = CryptoJS.AES.decrypt(token,process.env.key).toString(CryptoJS.enc.Utf8);   
+          var verification = jwt.verify(decryptedtoken, process.env.SECRET);                              // Access Token verified Using Secret Key
+
+            if(verification)                                                                           
             { 
-              req.emailid = verify.emailid;
+              req.emailid = verification.emailid;                                                         // Emailid Requested From Token
               next();
             } 
             else 
             {
               res.status(401).send({
-                message: "Entered Incorrect Emailid Or Incorrect Access Token",
+                "isSuccess": false,
+                "message": "Entered Incorrect Emailid Or Incorrect Access Token",
+                "status": 401,
+                "data": {}
               });
             }  
 
       }else{
           return res.status(403).json({
-            message: "Access Denied! Unauthorized User", // If Token Entered Wrong
+                "isSuccess": false,
+                "message": "Access Denied! Unauthorized User",
+                "status": 403,
+                "data": {}
           });
       }
 
   }catch(err){
       return res.status(404).json({
-          success: 0,
-          message: "Invalid Token",
+                "isSuccess": false,
+                "message": "Invalid Token",
+                "status": 404,
+                "data": {}
       });
   }
 };

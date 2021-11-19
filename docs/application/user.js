@@ -3,7 +3,7 @@
     //  * @swagger 
     //  * components:
     //  *  schemas:
-    //  *    employee: 
+    //  *    Student: 
     // *                   type: object
     // *                   properties:
     // *                     name:
@@ -20,10 +20,10 @@
 
     /**
      * @swagger
-     * /employee/getuser:
+     * /student/getuser:
      *      get:
      *          summary: Returns The List Of All The Books 
-     *          tags: [Employee]
+     *          tags: [Student]
      *          responses:
      *              200:
      *                  description: The List Of All The Employees
@@ -32,30 +32,30 @@
 
     /**
      * @swagger
-     * /employee/getuser/{name}:
+     * /student/getuser/{name}:
      *  get:
-     *      summary: Get The Employee By Name
-     *      tags: [Employee]
+     *      summary: Get The Student By Name
+     *      tags: [Student]
      *      parameters:
      *          - in: path
      *            name: name
      *            schema:
      *              type: string
      *            required: true
-     *            description: The Employee Name
+     *            description: The Student Name
      *      responses:
      *          200:
-     *              description: The Employee Name By Id
+     *              description: The Stduent Name By Id
      *          404:
-     *              description: Employee Name Not Found
+     *              description: Student Name Not Found
      */
     
     /**
      * @swagger
-     * /employee/usersignup:
+     * /student/usersignup:
      *   post:
-     *      summary: It Will Create The New Employee
-     *      tags: [Employee]
+     *      summary: It Will Create The New Student
+     *      tags: [Student]
      *      requestBody:
      *       required: true
      *       content:
@@ -80,10 +80,10 @@
 
     /**
     * @swagger
-     * /employee/usersignin:
+     * /student/usersignin:
      *   post:
      *      summary: user will signin
-     *      tags: [Employee]
+     *      tags: [Student]
      *      requestBody:
      *       required: true
      *       content:
@@ -99,18 +99,40 @@
      *                  example: "vinay@123"
      *      responses:
      *          200:
-     *              description: User Created Succesfully                        
+     *              description: User SignedIn Successfully                        
      *        
      */
 
     /**
     * @swagger
-     * /employee/changepassword:
+     * /student/changepassword:
      *   put:
      *      security:
      *       - bearerAuth: []
      *      summary: It Will Change The Password
-     *      tags: [Employee]
+     *      tags: [Student]
+     *      requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *            type: object
+     *            properties:
+     *              newpassword:
+     *                  type: string
+     *                  example: "Mihir@123"
+     *      responses:
+     *          200:
+     *              description: Password Changed Successfully                        
+     *        
+     */
+
+     /**
+    * @swagger
+     * /student/forgotpassword:
+     *   post:
+     *      summary: It Will Forgot The Password
+     *      tags: [Student]
      *      requestBody:
      *       required: true
      *       content:
@@ -120,15 +142,9 @@
      *            properties:
      *              emailid:
      *                  type: string
-     *                  example: "vinay@gmail.com"
-     *              oldpassword:
-     *                  type: string
-     *                  example: "vinay@123"
-     *              newpassword:
-     *                  type: string
-     *                  example: "Mihir@123"
+     *                  example: "Mihir@gmail.com"
      *      responses:
      *          200:
-     *              description: Password Changed Successfully                        
+     *              description: New Password Generated Successfully                        
      *        
      */
