@@ -3,18 +3,25 @@ const Student = require('../../schema/empschema');
 
 exports.getprofile = async (req,res) => {
     try{
-         const email_id = req.body.emailid;
-         var std = await Student.findOne({emailid:email_id});
+         const email_id = req.emailid;                                                  //EmailId Requested From Given Token
+         var studentdata = await Student.findOne({emailid:email_id});                   //Query To Find Student Using EmailId
 
-         if (std){
-                res.status(200).json(std);
+         if(studentdata){
+            res.status(200).json({
+                "issuccess": true,
+                "message": "Student's Data",
+                "status": "200",
+                "data": {studentdata}});
          }
-         else { 
-                res.status(404).json({
-                    success:'0',
-                    message:"Student Not Found"
-                })
+         else{ 
+            res.status(404).json({
+                "issuccess": false,
+                "message": "Student Not Found",
+                "status": "404",
+                "data": {}
+            })
          }
+
     }catch(err){
         console.log(err);
     }
@@ -22,42 +29,58 @@ exports.getprofile = async (req,res) => {
         
 exports.editprofile = async(req,res) =>{
     try{
-        const name = req.params.name;
-        var findstd = await Student.findOne({name:name});
+        const emailid = req.emailid;                                                                //EmailID Requested From given Token 
+        var findstudent = await Student.findOne({emailid:emailid});                                 //Query To Find Student Using EmailID
 
-        if(findstd){
-            const email_id = req.body.emailid;
-            var getstd = await Student.findOneAndUpdate({name:name},{emailid:email_id},{new:true});              
-            res.status(200).json(getstd);
+        if(findstudent){
+            const name = req.body.name;                                                             //Name Is Requested From Body
+            var getstd = await Student.findOneAndUpdate({emailid:emailid},{name:name},{new:true});  //Query To Find Student And Update The Given Data              
+            res.status(200).json({
+                "issuccess": true,
+                "message": "Student's Updated Data",
+                "status": "200",
+                "data": {getstd}  
+            });
         }
         else{
             res.status(404).json({
-                success:'0',
-                message:"Student Not Found"
+                "issuccess": false,
+                "message": "Student Not Found",
+                "status": "404",
+                "data": {}
             })
         }
+
     }catch(error){
-            console.log(error);
+        console.log(error);
     }
 }
 
 exports.deleteprofile = async(req,res) => {
     try{       
-        const emailid = req.emailid;
-        var delstd = await Student.findOneAndDelete({emailid:emailid});
-
-        if(delstd){
-            res.status(201).json({
-                message:"User Deleted Succesfuuly",
+        const emailid = req.emailid;                                                                    //EmailID Requested From given Token
+        var delstudent = await Student.findOneAndDelete({emailid:emailid});                             //Query To Find Student And Delete The Student From Database
+        
+        if(delstudent){
+            res.status(200).json({
+                "issuccess": true,
+                "message": "User Deleted Successfully",
+                "status": "200",
+                "data": {
+                    flag : true
+                }
             })
         }
         else{
             res.status(401).json({
-                message:"Student Name Not Found",
+                "issuccess": false,
+                "message": "Student Not Found",
+                "status": "401",
+                "data": {}
             })
-        }          
-    }catch(err){
+        }
 
-            console.log(error);
+    }catch(error){
+        console.log(error);
     }
 }

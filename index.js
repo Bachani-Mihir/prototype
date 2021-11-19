@@ -27,15 +27,16 @@
  const port = 5000;                 
  const user = require('./routes/user/user');
  const profile = require('./routes/profile/profile');
-  
+ 
 
-      /**For Swagger */
+      /** For Swagger */
     app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
     app.use(express.json());
     app.use(cors());
      
-    /**For API's */
-    app.use('/employee',user);
+      /** For API's */
+    app.use('/student',user);
     app.use('/',profile);
     app.listen(port,() => console.log(`app listening on ${port}`));
-    module.exports = app; 
+    
+module.exports = app; 
